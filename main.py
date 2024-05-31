@@ -5,7 +5,6 @@ from tkinter import ttk
 window = Tk()
 window.title('Employee Registration')
 window.geometry('1100x500')
-# window.config(bg='white')
 
 frame = Frame(window)
 frame.pack()
@@ -49,7 +48,7 @@ change_bt.grid(row=2, column=1, padx=15, pady=10)
 delete_bt = Button(user_info_frame, text='Deletar Usuario')
 delete_bt.grid(row=2, column=2, padx=15, pady=10)
 
-search_bt = Button(user_info_frame, text='Apagar informacoes')
+search_bt = Button(user_info_frame, text='Buscar Usuario')
 search_bt.grid(row=2, column=3, padx=15, pady=10)
 
 # Segunda parte
