@@ -4,7 +4,7 @@ from tkinter import ttk
 
 window = Tk()
 window.title('Employee Registration')
-window.geometry('1200x700')
+window.geometry('1100x500')
 # window.config(bg='white')
 
 frame = Frame(window)
@@ -57,6 +57,6 @@ show_info_frame = LabelFrame(frame, text='View users information')
 show_info_frame.grid(row=1, column=0, padx=5, pady=5, sticky=W)
 
 client_list = ttk.Treeview(show_info_frame, columns=('FirstName', 'Age', 'Ident', 'Role'))
-client_list.grid(row=0, column=0, padx=10, columnspan=1, pady=10, sticky=W)
+client_list.grid(row=0, column=0, padx=10, columnspan=1, pady=10,sticky=W)
 
 window.mainloop()
