@@ -32,7 +32,7 @@ ident.grid(row=1, column=0, padx=15, pady=10, sticky=W)
 ident = Entry(user_info_frame)
 ident.grid(row=1, column=1, padx=15, pady=10, sticky=W)
 
-role = Label(user_info_frame, text='Funcao :')
+role = Label(user_info_frame, text='Função :')
 role.grid(row=1, column=2, padx=5, pady=10, sticky=W)
 
 role = Entry(user_info_frame)
