@@ -4,21 +4,21 @@ from tkinter import ttk
 
 window = Tk()
 window.title('Employee Registration')
-window.geometry('1100x500')
+window.geometry('700x500')
 
 frame = Frame(window)
 frame.pack()
 
 # Primeira parte
 user_info_frame = LabelFrame(frame, text='User Info')
-user_info_frame.grid(row=0, column=0, padx=225, pady=20, sticky=W)
+user_info_frame.grid(row=0, column=0, padx=15, pady=20, sticky=W)
 
 # Pegar informacoes do funcionario
-first_name = Label(user_info_frame, text='Nome :')
-first_name.grid(row=0, column=0, padx=15, pady=10, sticky=W)
+name = Label(user_info_frame, text='Nome :')
+name.grid(row=0, column=0, padx=15, pady=10, sticky=W)
 
-first_name = Entry(user_info_frame)
-first_name.grid(row=0, column=1, padx=15, pady=10, sticky=W)
+name = Entry(user_info_frame)
+name.grid(row=0, column=1, padx=15, pady=10, sticky=W)
 
 age = Label(user_info_frame, text='Idade :')
 age.grid(row=0, column=2, padx=5, pady=10, sticky=W)
@@ -53,9 +53,20 @@ search_bt.grid(row=2, column=3, padx=15, pady=10)
 
 # Segunda parte
 show_info_frame = LabelFrame(frame, text='View users information')
-show_info_frame.grid(row=1, column=0, padx=5, pady=5, sticky=W)
+show_info_frame.grid(row=1, column=0, padx=15, pady=20, sticky=W)
 
-client_list = ttk.Treeview(show_info_frame, columns=('FirstName', 'Age', 'Ident', 'Role'))
+client_list = ttk.Treeview(show_info_frame, columns=('Name', 'Age', 'Ident', 'Role'))
 client_list.grid(row=0, column=0, padx=10, columnspan=1, pady=10,sticky=W)
+
+client_list.heading("#0", text="")
+client_list.column("#0", width=0, stretch=NO)
+client_list.heading("#1", text='Name')
+client_list.column("#1", width=140)
+client_list.heading("#2", text='Age')
+client_list.column("#2", width=140)
+client_list.heading("#3", text='Ident')
+client_list.column("#3", width=140)
+client_list.heading("#4", text='Role')
+client_list.column("#4", width=140)
 
 window.mainloop()
