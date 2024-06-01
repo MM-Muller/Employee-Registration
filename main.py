@@ -11,7 +11,7 @@ frame.pack()
 
 # Primeira parte
 user_info_frame = LabelFrame(frame, text='User Info')
-user_info_frame.grid(row=0, column=0, padx=15, pady=20, sticky=W)
+user_info_frame.grid(row=0, column=0, padx=50, pady=20, sticky=W)
 
 # Pegar informacoes do funcionario
 name = Label(user_info_frame, text='Nome :')
@@ -56,7 +56,7 @@ show_info_frame = LabelFrame(frame, text='View users information')
 show_info_frame.grid(row=1, column=0, padx=15, pady=20, sticky=W)
 
 client_list = ttk.Treeview(show_info_frame, columns=('Name', 'Age', 'Ident', 'Role'))
-client_list.grid(row=0, column=0, padx=10, columnspan=1, pady=10,sticky=W)
+client_list.grid(row=0, column=0, padx=35, columnspan=1, pady=10,sticky=W)
 
 client_list.heading("#0", text="")
 client_list.column("#0", width=0, stretch=NO)
@@ -68,5 +68,9 @@ client_list.heading("#3", text='Ident')
 client_list.column("#3", width=140)
 client_list.heading("#4", text='Role')
 client_list.column("#4", width=140)
+
+scrollbar = ttk.Scrollbar(show_info_frame, orient=VERTICAL)
+client_list.configure(yscroll=scrollbar.set)
+scrollbar.place(relx=0.95, rely=0.01, relwidth=0.05, relheight=0.95)
 
 window.mainloop()
