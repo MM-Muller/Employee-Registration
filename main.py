@@ -78,6 +78,7 @@ def create_tab():
 def add_client():
     conn = sqlite3.connect('employee.db')
     cursor = conn.cursor()
+
     nome = name.get()
     idade = age.get()
     id = ident.get()
@@ -105,6 +106,26 @@ def select_client():
     desconect_bd()
 
 
+def delete_client():
+    conn = sqlite3.connect('employee.db')
+    cursor = conn.cursor()
+
+    selected_item = client_list.selection()
+    if len(selected_item) == 0:
+        print("Aviso!! Selecione um cliente para deletar.")
+        return
+
+    client_code = client_list.item(selected_item)['values'][0]
+
+    cursor.execute("DELETE FROM employee WHERE code = ?", (client_code,))
+    conn.commit()
+    conn.close()
+
+    desconect_bd()
+    clean_info()
+    select_client()
+
+
 clean_bt = Button(user_info_frame, text='Limpar informacoes', command=clean_info)
 clean_bt.grid(row=3, column=0, padx=15, pady=10)
 
@@ -114,7 +135,7 @@ add_bt.grid(row=2, column=3, padx=15, pady=10)
 change_bt = Button(user_info_frame, text='Alterar Usuarior')
 change_bt.grid(row=3, column=1, padx=15, pady=10)
 
-delete_bt = Button(user_info_frame, text='Deletar Usuario')
+delete_bt = Button(user_info_frame, text='Deletar Usuario', command=delete_client)
 delete_bt.grid(row=3, column=2, padx=15, pady=10)
 
 search_bt = Button(user_info_frame, text='Buscar Usuario')
@@ -129,14 +150,14 @@ client_list.grid(row=0, column=0, padx=35, columnspan=1, pady=10,sticky=W)
 
 client_list.heading("#0", text="")
 client_list.column("#0", width=0, stretch=NO)
-client_list.heading("#1", text='')
-client_list.column("#1", width=50)
+client_list.heading("#1", text='Nº Cadastro')
+client_list.column("#1", width=100)
 client_list.heading("#2", text='Name')
 client_list.column("#2", width=150)
 client_list.heading("#3", text='Age')
-client_list.column("#3", width=125)
+client_list.column("#3", width=100)
 client_list.heading("#4", text='Ident')
-client_list.column("#4", width=125)
+client_list.column("#4", width=100)
 client_list.heading("#5", text='Role')
 client_list.column("#5", width=125)
 
