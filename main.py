@@ -38,8 +38,16 @@ role.grid(row=1, column=2, padx=5, pady=10, sticky=W)
 role = Entry(user_info_frame)
 role.grid(row=1, column=3, padx=15, pady=10, sticky=W)
 
-# Botao para cada opcao
-clean_bt = Button(user_info_frame, text='Apagar informacoes')
+
+# Botoes
+def clean_info():
+    name.delete(0, END)
+    age.delete(0, END)
+    role.delete(0, END)
+    ident.delete(0, END)
+
+
+clean_bt = Button(user_info_frame, text='Apagar informacoes', command=clean_info)
 clean_bt.grid(row=2, column=0, padx=15, pady=10)
 
 change_bt = Button(user_info_frame, text='Alterar Usuarior')
