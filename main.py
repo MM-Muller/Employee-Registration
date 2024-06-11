@@ -84,7 +84,6 @@ def add_client():
     id = ident.get()
     cargo = role.get()
     connect_bd()
-
     cursor.execute(""" INSERT INTO employee (Name, Age, Role, Ident)
         VALUES (?, ?, ?, ?)""", (nome, idade, id, cargo))
     conn.commit(); print("Cliente inserido com sucesso!")
