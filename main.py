@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+import sqlite3
 
 
 window = Tk()
@@ -46,6 +47,35 @@ def clean_info():
     role.delete(0, END)
     ident.delete(0, END)
 
+
+def connect_bd():
+    conn = sqlite3.connect('employee.db')
+    cursor = conn.cursor()
+
+
+def desconect_bd():
+    conn = sqlite3.connect('employee.db')
+    conn.close()
+
+
+def create_tab():
+    conn = sqlite3.connect('employee.db')
+    connect_bd(); print("Conectado ao banco de dados")
+    cursor = conn.cursor()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS employee (
+            code INTEGER PRIMARY KEY AUTOINCREMENT,
+            Name TEXT NOT NULL,
+            Age INTEGER NOT NULL,
+            Role TEXT NOT NULL,
+            Ident TEXT NOT NULL
+        );
+    """)
+    conn.commit(); print("Banco de dados criado!")
+    desconect_bd(); print("Banco de dados desconectado!")
+
+
+create_tab()
 
 clean_bt = Button(user_info_frame, text='Apagar informacoes', command=clean_info)
 clean_bt.grid(row=2, column=0, padx=15, pady=10)
