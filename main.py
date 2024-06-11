@@ -165,19 +165,17 @@ def edit_client():
 
 
 clean_bt = Button(user_info_frame, text='Limpar informacoes', command=clean_info)
-clean_bt.grid(row=3, column=0, padx=15, pady=10)
+clean_bt.grid(row=2, column=0, padx=15, pady=10)
 
 add_bt = Button(user_info_frame, text='Novo Usuarior', command=add_client)
 add_bt.grid(row=2, column=3, padx=15, pady=10)
 
 change_bt = Button(user_info_frame, text='Alterar Usuarior', command=edit_client)
-change_bt.grid(row=3, column=1, padx=15, pady=10)
+change_bt.grid(row=2, column=1, padx=15, pady=10)
 
 delete_bt = Button(user_info_frame, text='Deletar Usuario', command=delete_client)
-delete_bt.grid(row=3, column=2, padx=15, pady=10)
+delete_bt.grid(row=2, column=2, padx=15, pady=10)
 
-search_bt = Button(user_info_frame, text='Buscar Usuario')
-search_bt.grid(row=3, column=3, padx=15, pady=10)
 
 # Segunda parte
 show_info_frame = LabelFrame(frame, text='View users information')
@@ -203,6 +201,13 @@ scrollbar = ttk.Scrollbar(show_info_frame, orient=VERTICAL)
 client_list.configure(yscroll=scrollbar.set)
 scrollbar.place(relx=0.95, rely=0.01, relwidth=0.05, relheight=0.95)
 client_list.bind("<Double-1>", show_selected_client)
+
+# Terceira Parte - 1
+next_page = LabelFrame(frame, text='')
+next_page.grid(row=2, column=0, padx=250, pady=20, sticky=W)
+
+next_bt = Button(next_page, text='Proxima Pagina')
+next_bt.grid(row=1, column=3, padx=35, pady=15)
 
 select_client()
 create_tab()
