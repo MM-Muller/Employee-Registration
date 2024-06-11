@@ -5,7 +5,7 @@ import sqlite3
 
 window = Tk()
 window.title('Employee Registration')
-window.geometry('700x500')
+window.geometry('700x600')
 
 frame = Frame(window)
 frame.pack()
@@ -75,40 +75,75 @@ def create_tab():
     desconect_bd(); print("Banco de dados desconectado!")
 
 
-create_tab()
+def add_client():
+    conn = sqlite3.connect('employee.db')
+    cursor = conn.cursor()
+    nome = name.get()
+    idade = age.get()
+    id = ident.get()
+    cargo = role.get()
+    connect_bd()
 
-clean_bt = Button(user_info_frame, text='Apagar informacoes', command=clean_info)
-clean_bt.grid(row=2, column=0, padx=15, pady=10)
+    cursor.execute(""" INSERT INTO employee (Name, Age, Role, Ident)
+        VALUES (?, ?, ?, ?)""", (nome, idade, id, cargo))
+    conn.commit(); print("Cliente inserido com sucesso!")
+    desconect_bd()
+    select_client()
+    clean_info()
+
+
+def select_client():
+    conn = sqlite3.connect('employee.db')
+    cursor = conn.cursor()
+
+    client_list.delete(*client_list.get_children())
+    connect_bd()
+    lista = cursor.execute(""" SELECT code, Name, Age, Role, Ident FROM employee
+        ORDER BY Name ASC; """)
+    for i in lista:
+        client_list.insert("", END, values=i)
+    desconect_bd()
+
+
+clean_bt = Button(user_info_frame, text='Limpar informacoes', command=clean_info)
+clean_bt.grid(row=3, column=0, padx=15, pady=10)
+
+add_bt = Button(user_info_frame, text='Novo Usuarior', command=add_client)
+add_bt.grid(row=2, column=3, padx=15, pady=10)
 
 change_bt = Button(user_info_frame, text='Alterar Usuarior')
-change_bt.grid(row=2, column=1, padx=15, pady=10)
+change_bt.grid(row=3, column=1, padx=15, pady=10)
 
 delete_bt = Button(user_info_frame, text='Deletar Usuario')
-delete_bt.grid(row=2, column=2, padx=15, pady=10)
+delete_bt.grid(row=3, column=2, padx=15, pady=10)
 
 search_bt = Button(user_info_frame, text='Buscar Usuario')
-search_bt.grid(row=2, column=3, padx=15, pady=10)
+search_bt.grid(row=3, column=3, padx=15, pady=10)
 
 # Segunda parte
 show_info_frame = LabelFrame(frame, text='View users information')
 show_info_frame.grid(row=1, column=0, padx=15, pady=20, sticky=W)
 
-client_list = ttk.Treeview(show_info_frame, columns=('Name', 'Age', 'Ident', 'Role'))
+client_list = ttk.Treeview(show_info_frame, columns=('col1', 'col2', 'col3', 'col4', 'col5'))
 client_list.grid(row=0, column=0, padx=35, columnspan=1, pady=10,sticky=W)
 
 client_list.heading("#0", text="")
 client_list.column("#0", width=0, stretch=NO)
-client_list.heading("#1", text='Name')
-client_list.column("#1", width=140)
-client_list.heading("#2", text='Age')
-client_list.column("#2", width=140)
-client_list.heading("#3", text='Ident')
-client_list.column("#3", width=140)
-client_list.heading("#4", text='Role')
-client_list.column("#4", width=140)
+client_list.heading("#1", text='')
+client_list.column("#1", width=50)
+client_list.heading("#2", text='Name')
+client_list.column("#2", width=150)
+client_list.heading("#3", text='Age')
+client_list.column("#3", width=125)
+client_list.heading("#4", text='Ident')
+client_list.column("#4", width=125)
+client_list.heading("#5", text='Role')
+client_list.column("#5", width=125)
 
 scrollbar = ttk.Scrollbar(show_info_frame, orient=VERTICAL)
 client_list.configure(yscroll=scrollbar.set)
 scrollbar.place(relx=0.95, rely=0.01, relwidth=0.05, relheight=0.95)
 
+select_client()
+create_tab()
 window.mainloop()
