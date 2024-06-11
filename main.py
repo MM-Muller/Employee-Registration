@@ -106,6 +106,22 @@ def select_client():
     desconect_bd()
 
 
+def show_selected_client(event):
+    selected_item = client_list.selection()
+
+    if selected_item:
+        client_info = client_list.item(selected_item)['values']
+
+        name.delete(0, END)
+        name.insert(0, client_info[1])
+        age.delete(0, END)
+        age.insert(0, client_info[2])
+        ident.delete(0, END)
+        ident.insert(0, client_info[3])
+        role.delete(0, END)
+        role.insert(0, client_info[4])
+
+
 def delete_client():
     conn = sqlite3.connect('employee.db')
     cursor = conn.cursor()
@@ -120,10 +136,32 @@ def delete_client():
     cursor.execute("DELETE FROM employee WHERE code = ?", (client_code,))
     conn.commit()
     conn.close()
-
     desconect_bd()
     clean_info()
     select_client()
+
+
+def edit_client():
+    conn = sqlite3.connect('employee.db')
+    cursor = conn.cursor()
+
+    selected_item = client_list.selection()
+    if len(selected_item) == 0:
+        print("Aviso!! Selecione um cliente para editar.")
+
+    nome = name.get()
+    idade = age.get()
+    id = ident.get()
+    cargo = role.get()
+    connect_bd()
+    selected_item = client_list.selection()
+    client_code = client_list.item(selected_item)['values'][0]
+    cursor.execute(""" UPDATE employee SET Name = ?, Age = ?, Ident = ?, Role = ?
+        WHERE code = ?""", (nome, idade, cargo, id, client_code))
+    conn.commit()
+    desconect_bd()
+    select_client()
+    clean_info()
 
 
 clean_bt = Button(user_info_frame, text='Limpar informacoes', command=clean_info)
@@ -132,7 +170,7 @@ clean_bt.grid(row=3, column=0, padx=15, pady=10)
 add_bt = Button(user_info_frame, text='Novo Usuarior', command=add_client)
 add_bt.grid(row=2, column=3, padx=15, pady=10)
 
-change_bt = Button(user_info_frame, text='Alterar Usuarior')
+change_bt = Button(user_info_frame, text='Alterar Usuarior', command=edit_client)
 change_bt.grid(row=3, column=1, padx=15, pady=10)
 
 delete_bt = Button(user_info_frame, text='Deletar Usuario', command=delete_client)
@@ -164,6 +202,7 @@ client_list.column("#5", width=125)
 scrollbar = ttk.Scrollbar(show_info_frame, orient=VERTICAL)
 client_list.configure(yscroll=scrollbar.set)
 scrollbar.place(relx=0.95, rely=0.01, relwidth=0.05, relheight=0.95)
+client_list.bind("<Double-1>", show_selected_client)
 
 select_client()
 create_tab()
