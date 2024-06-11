@@ -10,7 +10,7 @@ window.geometry('700x600')
 frame = Frame(window)
 frame.pack()
 
-# Primeira parte
+# Primeira parte - 1
 user_info_frame = LabelFrame(frame, text='User Info')
 user_info_frame.grid(row=0, column=0, padx=50, pady=20, sticky=W)
 
@@ -83,13 +83,34 @@ def add_client():
     idade = age.get()
     id = ident.get()
     cargo = role.get()
+
     connect_bd()
+    cursor.execute("SELECT * FROM employee WHERE Ident =?", (cargo,))
+    existing_user = cursor.fetchone()
+
+    if existing_user:
+        print("Erro", "Já existe um usuário com esse ID.")
+        return
+
     cursor.execute(""" INSERT INTO employee (Name, Age, Role, Ident)
         VALUES (?, ?, ?, ?)""", (nome, idade, id, cargo))
     conn.commit(); print("Cliente inserido com sucesso!")
     desconect_bd()
     select_client()
     clean_info()
+
+
+def validate_age_input(new_value):
+    if new_value.isdigit() or new_value == "":
+        return True
+    else:
+        return False
+
+
+age_var = StringVar()
+validate_age = window.register(validate_age_input)
+age = Entry(user_info_frame, textvariable=age_var, validate="key", validatecommand=(validate_age, '%P'))
+age.grid(row=0, column=3, padx=15, pady=10, sticky=W)
 
 
 def select_client():
@@ -110,7 +131,6 @@ def show_selected_client(event):
 
     if selected_item:
         client_info = client_list.item(selected_item)['values']
-
         name.delete(0, END)
         name.insert(0, client_info[1])
         age.delete(0, END)
@@ -131,7 +151,6 @@ def delete_client():
         return
 
     client_code = client_list.item(selected_item)['values'][0]
-
     cursor.execute("DELETE FROM employee WHERE code = ?", (client_code,))
     conn.commit()
     conn.close()
@@ -147,7 +166,6 @@ def edit_client():
     selected_item = client_list.selection()
     if len(selected_item) == 0:
         print("Aviso!! Selecione um cliente para editar.")
-
     nome = name.get()
     idade = age.get()
     id = ident.get()
@@ -176,7 +194,7 @@ delete_bt = Button(user_info_frame, text='Deletar Usuario', command=delete_clien
 delete_bt.grid(row=2, column=2, padx=15, pady=10)
 
 
-# Segunda parte
+# Segunda parte - 1
 show_info_frame = LabelFrame(frame, text='View users information')
 show_info_frame.grid(row=1, column=0, padx=15, pady=20, sticky=W)
 
